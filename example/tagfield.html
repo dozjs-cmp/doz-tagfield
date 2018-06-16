@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="DOZ - TAGFIELD">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Doz - tagfield</title>
+    <script src="https://unpkg.com/doz/dist/doz.js?5"></script>
+    <script src="../dist/doz-tagfield.js?7545042620851"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+
+    const app = new Doz({
+        root: '#app',
+        template: `
+            <doz-tagfield d:store="emails"></doz-tagfield>
+        `
+    });
+
+    const store = app.getStore('emails');
+    store.data = [
+        {
+            id: 1,
+            value: 'myemail@email.com'
+        },
+        {
+            id: 2,
+            value: 'youremail@email.com'
+        }
+    ];
+
+</script>
+</body>
+</html>
