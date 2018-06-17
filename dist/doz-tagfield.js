@@ -121,9 +121,8 @@ exports.default = {
 
     template: function template() {
         //console.log(this.props.data)
-        return '\n            <select multiple>\n                ' + this.each(this.props.data, function (item) {
-            console.log(item);
-            '<option value="' + item.id + '">' + item.email + '</option>';
+        return '\n            <select multiple="multiple">\n                ' + this.each(this.props.data, function (item) {
+            return '<option value="' + item.id + '">' + item.value + '</option>';
         }) + '\n            </select>\n        ';
     },
     onUpdate: function onUpdate() {},

@@ -8,11 +8,10 @@ export default {
 
     template() {//console.log(this.props.data)
         return `
-            <select multiple>
-                ${this.each(this.props.data, item => {
-                    console.log(item);
-                    `<option value="${item.id}">${item.email}</option>`    
-                })}
+            <select multiple="multiple">
+                ${this.each(this.props.data, item => 
+                    `<option value="${item.id}">${item.value}</option>`    
+                )}
             </select>
         `
     },
