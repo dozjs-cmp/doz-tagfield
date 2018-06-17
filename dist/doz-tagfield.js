@@ -122,34 +122,36 @@ exports.default = {
     },
 
     template: function template() {
-        return '\n            <div class="doz-tagfield">\n                <ul class="doz-tagfield-list">\n                    ' + this.each(this.props.selected, function (item, i) {
-            return '\n                        <li forceupdate onclick="this.$focusInput()" class="doz-tagfield-list-item">' + item + ' \n                            <button onclick="this.$removeItem(' + i + ')">&cross;</button>\n                        </li>\n                    ';
-        }) + '\n                    <li><input type="text" onkeypress="this.$enterPress()" tabindex="1" d-bind="item" d-ref="item"/></li>\n                </ul>\n                <select style="display: none" multiple="multiple">\n                    ' + this.each(this.props.data, function (item) {
-            return '<option selected="selected" value="' + item.value + '">' + item.value + '</option>';
-        }) + '\n                </select>\n            </div>\n        ';
+        return '\n            <div class="doz-tagfield" onclick="this.$focusInput()">\n                <ul class="doz-tagfield-list">\n                    ' + this.each(this.props.selected, function (item, i) {
+            return '\n                        <li class="doz-tagfield-list-item">\n                            ' + item + ' <button onclick="this.$removeItem(' + i + ')">&cross;</button>\n                        </li>\n                    ';
+        }) + '\n                    <li class="doz-tagfield-input">\n                        <input \n                            type="text" \n                            oninput="this.$setInputSize()"\n                            onkeypress="this.$enterPress()" \n                            d-ref="input">\n                        <div d-ref="inputSize" class="doz-tagfield-input-size"></div>\n                    </li>\n                </ul>\n            </div>\n        ';
     },
     onUpdate: function onUpdate() {
         this.$focusInput();
     },
     $focusInput: function $focusInput() {
-        this.ref.item.focus();
+        this.ref.input.focus();
+    },
+    $setInputSize: function $setInputSize(e) {
+        var inputSize = this.ref.inputSize;
+        var input = this.ref.input;
+        inputSize.innerText = e.target.value;
+        input.style.width = inputSize.clientWidth + 10 + 'px';
     },
     $enterPress: function $enterPress(e) {
         if (e.keyCode === 13) {
-            this.$addItem(this.props.item);
-            this.props.item = '';
+            var value = e.target.value.trim();
             e.target.value = '';
+            this.$addItem(value);
             e.target.focus();
         }
     },
-    $addItem: function $addItem(item) {
-
-        if (!item.trim() || this.props.selected.includes(item)) return;
-
-        this.props.selected.push(item);
+    $addItem: function $addItem(value) {
+        if (!value.trim() || this.props.selected.includes(value)) return;
+        this.props.selected.push(value);
     },
     $removeItem: function $removeItem(value) {
-        console.log(this.props.selected[value]);
+        this.props.selected.splice(value, 1);
     }
 };
 
@@ -212,7 +214,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".doz-tagfield{\r\n    text-align: left;\r\n}\r\n\r\n.doz-tagfield-list {\r\n    list-style: none;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.doz-tagfield-list li{\r\n    display: inline-block;\r\n}\r\n\r\n.doz-tagfield-list-item {\r\n    padding: 10px;\r\n    background: beige;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n    font-size: 14px;\r\n}\r\n\r\n.doz-tagfield-list li input[type=text]{\r\n    font-size: 14px;\r\n    padding: 10px;\r\n    border: none;\r\n    box-sizing: border-box;\r\n}", ""]);
+exports.push([module.i, ".doz-tagfield{\r\n    text-align: left;\r\n    border: 1px solid #ccc;\r\n}\r\n\r\n.doz-tagfield-list {\r\n    list-style: none;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.doz-tagfield-list li{\r\n    display: inline-block;\r\n}\r\n\r\n.doz-tagfield-list-item {\r\n    padding: 10px;\r\n    background: beige;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n    font-size: 14px;\r\n}\r\n\r\n.doz-tagfield-list-item button {\r\n    border: none;\r\n    background: transparent;\r\n    opacity: 0.5;\r\n}\r\n\r\n.doz-tagfield-list li input[type=text]{\r\n    font-size: 14px;\r\n    padding: 0;\r\n    border: none;\r\n    box-sizing: border-box;\r\n    outline: none;\r\n    width: 60px;\r\n    margin: 2px;\r\n}\r\n\r\n.doz-tagfield-input{\r\n    width: auto;\r\n    min-width: 60px;\r\n    padding: 10px;\r\n    font-size: 14px;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.doz-tagfield-input-size{\r\n    width: auto;\r\n    display: inline-block;\r\n    visibility: hidden;\r\n    position: fixed;\r\n    overflow:auto;\r\n}", ""]);
 
 // exports
 

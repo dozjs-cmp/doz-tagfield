@@ -1,5 +1,6 @@
 .doz-tagfield{
     text-align: left;
+    border: 1px solid #ccc;
 }
 
 .doz-tagfield-list {
@@ -20,9 +21,35 @@
     font-size: 14px;
 }
 
+.doz-tagfield-list-item button {
+    border: none;
+    background: transparent;
+    opacity: 0.5;
+}
+
 .doz-tagfield-list li input[type=text]{
     font-size: 14px;
-    padding: 10px;
+    padding: 0;
     border: none;
     box-sizing: border-box;
+    outline: none;
+    width: 60px;
+    margin: 2px;
+}
+
+.doz-tagfield-input{
+    width: auto;
+    min-width: 60px;
+    padding: 10px;
+    font-size: 14px;
+    margin: 2px;
+    box-sizing: border-box;
+}
+
+.doz-tagfield-input-size{
+    width: auto;
+    display: inline-block;
+    visibility: hidden;
+    position: fixed;
+    overflow:auto;
 }

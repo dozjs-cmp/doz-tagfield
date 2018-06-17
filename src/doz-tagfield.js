@@ -10,20 +10,22 @@ export default {
 
     template() {
         return `
-            <div class="doz-tagfield">
+            <div class="doz-tagfield" onclick="this.$focusInput()">
                 <ul class="doz-tagfield-list">
                     ${this.each(this.props.selected, (item, i) => `
-                        <li forceupdate onclick="this.$focusInput()" class="doz-tagfield-list-item">${item} 
-                            <button onclick="this.$removeItem(${i})">&cross;</button>
+                        <li class="doz-tagfield-list-item">
+                            ${item} <button onclick="this.$removeItem(${i})">&cross;</button>
                         </li>
                     `)}
-                    <li><input type="text" onkeypress="this.$enterPress()" tabindex="1" d-bind="item" d-ref="item"/></li>
+                    <li class="doz-tagfield-input">
+                        <input 
+                            type="text" 
+                            oninput="this.$setInputSize()"
+                            onkeypress="this.$enterPress()" 
+                            d-ref="input">
+                        <div d-ref="inputSize" class="doz-tagfield-input-size"></div>
+                    </li>
                 </ul>
-                <select style="display: none" multiple="multiple">
-                    ${this.each(this.props.data, item => 
-                        `<option selected="selected" value="${item.value}">${item.value}</option>`    
-                    )}
-                </select>
             </div>
         `
     },
@@ -33,26 +35,31 @@ export default {
     },
 
     $focusInput() {
-        this.ref.item.focus();
+        this.ref.input.focus();
+    },
+
+    $setInputSize(e) {
+        const inputSize = this.ref.inputSize;
+        const input = this.ref.input;
+        inputSize.innerText = e.target.value;
+        input.style.width = (inputSize.clientWidth + 10) + 'px';
     },
 
     $enterPress(e) {
         if (e.keyCode === 13) {
-            this.$addItem(this.props.item);
-            this.props.item = '';
+            let value = e.target.value.trim();
             e.target.value = '';
+            this.$addItem(value);
             e.target.focus();
         }
     },
 
-    $addItem(item) {
-
-        if (!item.trim() || this.props.selected.includes(item)) return;
-
-        this.props.selected.push(item);
+    $addItem(value) {
+        if (!value.trim() || this.props.selected.includes(value)) return;
+        this.props.selected.push(value);
     },
 
     $removeItem(value) {
-        console.log(this.props.selected[value])
+        this.props.selected.splice(value, 1);
     }
 };
