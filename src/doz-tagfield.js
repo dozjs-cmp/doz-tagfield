@@ -5,7 +5,7 @@ export default {
     props: {
         data: [],
         selected: [],
-        item: ''
+        name: 'tagfield'
     },
 
     template() {
@@ -22,10 +22,16 @@ export default {
                             type="text" 
                             oninput="this.$setInputSize()"
                             onkeypress="this.$enterPress()" 
-                            d-ref="input">
+                            d-ref="input"
+                        >
                         <div d-ref="inputSize" class="doz-tagfield-input-size"></div>
                     </li>
                 </ul>
+                <select class="doz-tagfield-selected" multiple="multiple" name="${this.props.name}">
+                    ${this.each(this.props.selected, item => `
+                        <option selected="selected">${item}</option>
+                    `)}
+                </select>
             </div>
         `
     },

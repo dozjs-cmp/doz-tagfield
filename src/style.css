@@ -33,8 +33,9 @@
     border: none;
     box-sizing: border-box;
     outline: none;
-    width: 60px;
+    width: 10px;
     margin: 2px;
+    background: transparent;
 }
 
 .doz-tagfield-input{
@@ -52,4 +53,11 @@
     visibility: hidden;
     position: fixed;
     overflow:auto;
+}
+
+.doz-tagfield-selected{
+    visibility: hidden;
+    position: fixed;
+    height: 1px;
+    width: 1px;
 }
