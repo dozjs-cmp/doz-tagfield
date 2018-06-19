@@ -34,7 +34,7 @@
         "bejs": "^2.0.1",
         "chai": "^4.1.2",
         "css-loader": "^0.28.11",
-        "doz": "^1.1.0",
+        "doz": "^1.1.1",
         "jsdoc-to-markdown": "^4.0.1",
         "jsdom": "^11.6.2",
         "jsdom-global": "^3.0.2",

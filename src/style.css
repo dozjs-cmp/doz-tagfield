@@ -15,10 +15,11 @@
 
 .doz-tagfield-list-item {
     padding: 10px;
-    background: beige;
     margin: 2px;
     box-sizing: border-box;
     font-size: 14px;
+    opacity: 0.7;
+    font-weight: bold;
 }
 
 .doz-tagfield-list-item button {
@@ -33,7 +34,6 @@
     border: none;
     box-sizing: border-box;
     outline: none;
-    width: 10px;
     margin: 2px;
     background: transparent;
 }
@@ -45,14 +45,6 @@
     font-size: 14px;
     margin: 2px;
     box-sizing: border-box;
-}
-
-.doz-tagfield-input-size{
-    width: auto;
-    display: inline-block;
-    visibility: hidden;
-    position: fixed;
-    overflow:auto;
 }
 
 .doz-tagfield-selected{
