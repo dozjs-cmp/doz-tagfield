@@ -1,19 +1,19 @@
-.doz-tagfield{
+:local .wrapper{
     text-align: left;
     border: 1px solid #ccc;
 }
 
-.doz-tagfield-list {
+:local .list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.doz-tagfield-list li{
+:local .list li{
     display: inline-block;
 }
 
-.doz-tagfield-list-item {
+:local .listItem {
     padding: 10px;
     margin: 2px;
     box-sizing: border-box;
@@ -22,13 +22,13 @@
     font-weight: bold;
 }
 
-.doz-tagfield-list-item button {
+:local .listItem button {
     border: none;
     background: transparent;
     opacity: 0.5;
 }
 
-.doz-tagfield-list li input[type=text]{
+:local .list li input[type=text]{
     font-size: 14px;
     padding: 0;
     border: none;
@@ -38,7 +38,7 @@
     background: transparent;
 }
 
-.doz-tagfield-input{
+:local .input{
     width: auto;
     min-width: 60px;
     padding: 10px;
@@ -47,7 +47,7 @@
     box-sizing: border-box;
 }
 
-.doz-tagfield-selected{
+:local .selected{
     visibility: hidden;
     position: fixed;
     height: 1px;

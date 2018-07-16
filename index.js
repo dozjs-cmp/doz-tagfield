@@ -1,10 +1,9 @@
-import DozTagfield from './src/doz-tagfield'
+import Doz from 'doz'
+import cmp from './lib'
 
 // expose component to global scope
-if (typeof window !== 'undefined' && window.Doz) {
-    Doz.component('doz-tagfield', DozTagfield)
+if (typeof window !== 'undefined') {
+    Doz.component('doz-tagfield', cmp)
 }
 
-export { DozTagfield }
-
-export default DozTagfield
+export default cmp
