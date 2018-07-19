@@ -1575,29 +1575,28 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                         }
                     };
 
-                    var _notifyObservers = function _notifyObservers(numChanges) {
+                    var _notifyObservers = function _notifyObservers(numChanges, isDelete) {
 
                         // if the observable is paused, then we don't want to execute any of the observer functions
                         if (observable.paused === true) return;
 
+                        console.log(isDelete);
+
                         // execute observer functions on a 10ms settimeout, this prevents the observer functions from being executed
                         // separately on every change -- this is necessary because the observer functions will often trigger UI updates
-                        if (domDelay === true) {
+                        if ( /*domDelay === true && */isDelete) {
                             setTimeout(function () {
                                 if (numChanges === changes.length) {
                                     // invoke any functions that are observing changes
                                     for (var i = 0; i < observable.observers.length; i++) {
                                         observable.observers[i](changes);
-                                        console.log(i);
                                     }changes = [];
                                 }
                             }, 10);
                         } else {
                             // invoke any functions that are observing changes
                             for (var i = 0; i < observable.observers.length; i++) {
-                                (function (i) {
-                                    observable.observers[i](changes);
-                                })(i);
+                                observable.observers[i](changes);
                             }changes = [];
                         }
                     };
@@ -1654,7 +1653,6 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                             }
                         },
                         deleteProperty: function deleteProperty(target, property) {
-
                             // was this change an original change or was it a change that was re-triggered below
                             var originalChange = true;
                             if (dupProxy === proxy) {
@@ -1716,7 +1714,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                                 delete target[property];
                             }
 
-                            _notifyObservers(changes.length);
+                            _notifyObservers(changes.length, true);
 
                             return true;
                         },
