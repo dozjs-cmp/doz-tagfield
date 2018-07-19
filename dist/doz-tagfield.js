@@ -71,42 +71,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _doz = __webpack_require__(13);
-
-var _doz2 = _interopRequireDefault(_doz);
-
-var _lib = __webpack_require__(10);
-
-var _lib2 = _interopRequireDefault(_lib);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// expose component to global scope
-if (typeof window !== 'undefined') {
-    _doz2.default.component('doz-tagfield', _lib2.default);
-}
-
-exports.default = _lib2.default;
-
-/***/ }),
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -188,7 +157,7 @@ function toComment(sourceMap) {
 }
 
 /***/ }),
-/* 5 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -254,7 +223,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(6);
+var	fixUrls = __webpack_require__(8);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -574,105 +543,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-	// get current location
-	var location = typeof window !== "undefined" && window.location;
-
-	if (!location) {
-		throw new Error("fixUrls requires window.location");
-	}
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-		return css;
-	}
-
-	var baseUrl = location.protocol + "//" + location.host;
-	var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
- This regular expression is just a way to recursively match brackets within
- a string.
- 	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-    (  = Start a capturing group
-      (?:  = Start a non-capturing group
-          [^)(]  = Match anything that isn't a parentheses
-          |  = OR
-          \(  = Match a start parentheses
-              (?:  = Start another non-capturing groups
-                  [^)(]+  = Match anything that isn't a parentheses
-                  |  = OR
-                  \(  = Match a start parentheses
-                      [^)(]*  = Match anything that isn't a parentheses
-                  \)  = Match a end parentheses
-              )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-  \)  = Match a close parens
- 	 /gi  = Get all matches, not the first.  Be case insensitive.
-  */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl.trim().replace(/^"(.*)"$/, function (o, $1) {
-			return $1;
-		}).replace(/^'(.*)'$/, function (o, $1) {
-			return $1;
-		});
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
-			return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-			//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-/***/ }),
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -682,197 +553,25 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _style = __webpack_require__(11);
+var _doz = __webpack_require__(3);
 
-var _style2 = _interopRequireDefault(_style);
+var _doz2 = _interopRequireDefault(_doz);
 
-var _boundList = __webpack_require__(15);
+var _lib = __webpack_require__(5);
 
-var _boundList2 = _interopRequireDefault(_boundList);
+var _lib2 = _interopRequireDefault(_lib);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
-
-    components: {
-        'bound-list': _boundList2.default
-    },
-
-    props: function props() {
-        return {
-            data: [],
-            selected: [],
-            name: 'tagfield',
-            active: -1,
-            tagColor: '#000',
-            tagBackground: 'beige',
-            crossChar: '&cross;',
-            insertOnBlur: true,
-            search: ''
-        };
-    },
-    template: function template() {
-        var _this = this;
-
-        var tagActiveStyle = this.toStyle({
-            color: this.props.tagBackground,
-            background: this.props.tagColor
-        });
-
-        var tagStyle = this.toStyle({
-            color: this.props.tagColor,
-            background: this.props.tagBackground
-        });
-
-        return '\n            <div class="' + _style2.default.wrapper + '" onclick="this.$focusInput()" onkeydown="this.$onKeyDown()" >\n                <ul class="' + _style2.default.list + '">\n                    ' + this.each(this.props.selected, function (item, i) {
-            return '\n                        <li class="' + _style2.default.listItem + '" ' + (i === _this.props.active ? '' + tagActiveStyle : '' + tagStyle) + '>\n                            <div onclick="this.$selectItem(' + i + ')" >\n                                ' + item + ' <button ' + (i === _this.props.active ? '' + tagActiveStyle : '' + tagStyle) + ' onclick="this.$removeItem(' + i + ')">' + _this.props.crossChar + '</button>\n                            </div>\n                        </li>\n                    ';
-        }) + '\n                    <li class="' + _style2.default.input + '">\n                        <input \n                            type="text" \n                            oninput="this.$onInput()"\n                            onkeydown="this.$onInputKeyDown()"\n                            onkeypress="this.$onInputKeyPress()" \n                            onblur="this.$onInputBlur()"\n                            d-ref="input"\n                            size="1"\n                        >\n                    </li>\n                </ul>\n                <select class="' + _style2.default.selected + '" multiple="multiple" name="' + this.props.name + '">\n                    ' + this.each(this.props.selected, function (item) {
-            return '\n                        <option selected="selected">' + item + '</option>\n                    ';
-        }) + '\n                </select>\n            </div>\n            <bound-list d:alias="boundList"\n                search="' + this.props.search + '"\n            ></bound-list>\n        ';
-    },
-    onMountAsync: function onMountAsync() {
-        this.children.boundList.props.data = this.props.data;
-    },
-    onUpdate: function onUpdate() {
-        this.$focusInput();
-    },
-
-
-    $focusInner: false,
-
-    $focusInput: function $focusInput() {
-        this.$focusInner = true;
-        this.ref.input.focus();
-    },
-    $setInputSize: function $setInputSize(e) {
-        e.target.setAttribute('size', e.target.value.length);
-    },
-    $onInput: function $onInput(e) {
-        this.$setInputSize(e);
-        this.props.search = e.target.value;
-    },
-    $onInputKeyPress: function $onInputKeyPress(e) {
-        if (e.keyCode === 13) {
-            var value = e.target.value.trim();
-            if (this.$addItem(value)) e.target.value = '';
-            e.target.focus();
-        }
-
-        this.props.active = -1;
-    },
-    $onInputKeyDown: function $onInputKeyDown(e) {
-        if (e.keyCode === 8 && e.target.value.length === 0) {
-            this.props.selected.pop();
-        }
-    },
-    $onKeyDown: function $onKeyDown(e) {
-
-        e.stopPropagation();
-
-        var current = this.props.active;
-        var code = e.keyCode;
-        if (code === 46) {
-            this.$removeItem(current);
-        }
-    },
-    $onInputBlur: function $onInputBlur() {
-        var _this2 = this;
-
-        this.$focusInner = false;
-        setTimeout(function () {
-            if (!_this2.$focusInner) {
-                if (_this2.props.insertOnBlur) _this2.$addItem(_this2.ref.input.value);
-                _this2.props.active = -1;
-            }
-        }, 100);
-    },
-    $addItem: function $addItem(value) {
-        if (!value.trim() || this.props.selected.includes(value)) return false;
-        this.props.selected.push(value);
-        return true;
-    },
-    $removeItem: function $removeItem(value, e) {
-        if (e) e.stopPropagation();
-        this.props.selected.splice(value, 1);
-        this.props.active = -1;
-    },
-    $selectItem: function $selectItem(value) {
-        this.props.active = value;
-    }
-};
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(12);
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(5)(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {
-	module.hot.accept("!!../node_modules/css-loader/index.js!./style.css", function() {
-		var newContent = require("!!../node_modules/css-loader/index.js!./style.css");
-
-		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-		var locals = (function(a, b) {
-			var key, idx = 0;
-
-			for(key in a) {
-				if(!b || a[key] !== b[key]) return false;
-				idx++;
-			}
-
-			for(key in b) idx--;
-
-			return idx === 0;
-		}(content.locals, newContent.locals));
-
-		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-		update(newContent);
-	});
-
-	module.hot.dispose(function() { update(); });
+// expose component to global scope
+if (typeof window !== 'undefined') {
+    _doz2.default.component('doz-tagfield', _lib2.default);
 }
 
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)(false);
-// imports
-
-
-// module
-exports.push([module.i, "._1yXMp656GfECDTNEbB4zc-{\r\n    text-align: left;\r\n    border: 1px solid #ccc;\r\n}\r\n\r\n._1ZF1-nHjD5I6EnqXTBJst4 {\r\n    list-style: none;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n._1ZF1-nHjD5I6EnqXTBJst4 li{\r\n    display: inline-block;\r\n}\r\n\r\n.XF9b32VjZ5C_Ihhw0q06U {\r\n    padding: 10px;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n    font-size: 14px;\r\n    opacity: 0.7;\r\n    font-weight: bold;\r\n}\r\n\r\n.XF9b32VjZ5C_Ihhw0q06U button {\r\n    border: none;\r\n    background: transparent;\r\n    opacity: 0.5;\r\n}\r\n\r\n._1ZF1-nHjD5I6EnqXTBJst4 li input[type=text]{\r\n    font-size: 14px;\r\n    padding: 0;\r\n    border: none;\r\n    box-sizing: border-box;\r\n    outline: none;\r\n    margin: 2px;\r\n    background: transparent;\r\n}\r\n\r\n._2QP1uDpD84cULD6n1w6Yxj{\r\n    width: auto;\r\n    min-width: 60px;\r\n    padding: 10px;\r\n    font-size: 14px;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n._2d5jjuzTLCDqxJy4q1XtZK{\r\n    visibility: hidden;\r\n    position: fixed;\r\n    height: 1px;\r\n    width: 1px;\r\n}", ""]);
-
-// exports
-exports.locals = {
-	"wrapper": "_1yXMp656GfECDTNEbB4zc-",
-	"list": "_1ZF1-nHjD5I6EnqXTBJst4",
-	"listItem": "XF9b32VjZ5C_Ihhw0q06U",
-	"input": "_2QP1uDpD84cULD6n1w6Yxj",
-	"selected": "_2d5jjuzTLCDqxJy4q1XtZK"
-};
+exports.default = _lib2.default;
 
 /***/ }),
-/* 13 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1473,6 +1172,8 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                     },
                     render: {
                         value: function value(initial) {
+                            var _this = this;
+
                             this.beginSafeRender();
                             var template = this.template().trim();
                             this.endSafeRender();
@@ -1482,7 +1183,13 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 
                             var rootElement = update(cfg.root, next, this._prev, 0, this, initial);
 
-                            drawDynamic(this);
+                            //console.log(next)
+
+
+                            setTimeout(function () {
+                                //console.log('this._processing',this._processing)
+                                drawDynamic(_this);
+                            });
 
                             if (!this._rootElement && rootElement) {
                                 this._rootElement = rootElement;
@@ -1494,7 +1201,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                     },
                     mount: {
                         value: function value(template) {
-                            var _this = this;
+                            var _this2 = this;
 
                             var cfg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -1508,7 +1215,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                                 hooks.callMount(this);
 
                                 Object.keys(this.children).forEach(function (child) {
-                                    _this.children[child].mount();
+                                    _this2.children[child].mount();
                                 });
 
                                 return this;
@@ -1536,7 +1243,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                         value: function value() {
                             var onlyInstance = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-                            var _this2 = this;
+                            var _this3 = this;
 
                             var byDestroy = arguments[1];
                             var silently = arguments[2];
@@ -1558,7 +1265,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                             if (!silently) hooks.callUnmount(this);
 
                             Object.keys(this.children).forEach(function (child) {
-                                _this2.children[child].unmount(onlyInstance, byDestroy, silently);
+                                _this3.children[child].unmount(onlyInstance, byDestroy, silently);
                             });
 
                             return this;
@@ -1567,7 +1274,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                     },
                     destroy: {
                         value: function value(onlyInstance) {
-                            var _this3 = this;
+                            var _this4 = this;
 
                             if (this.unmount(onlyInstance, true) === false) return;
 
@@ -1576,7 +1283,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                             }
 
                             Object.keys(this.children).forEach(function (child) {
-                                _this3.children[child].destroy();
+                                _this4.children[child].destroy();
                             });
 
                             hooks.callDestroy(this);
@@ -1666,14 +1373,17 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                         item.node[INSTANCE].destroy(true);
                     }
 
-                    var dynamicInstance = getInstances({ root: root, template: item.node.outerHTML, app: instance.app });
+                    //console.log(instance._processing[index].node.innerHTML)
+                    if (item.node.innerHTML === '') {
 
-                    if (dynamicInstance) {
-                        instance._dynamicChildren.push(dynamicInstance._rootElement.parentNode);
+                        var dynamicInstance = getInstances({ root: root, template: item.node.outerHTML, app: instance.app });
 
-                        root.replaceChild(dynamicInstance._rootElement.parentNode, item.node);
-                        dynamicInstance._rootElement.parentNode[INSTANCE] = dynamicInstance;
-                        instance._processing.splice(index, 1);
+                        if (dynamicInstance) {
+                            instance._dynamicChildren.push(dynamicInstance._rootElement.parentNode);
+                            root.replaceChild(dynamicInstance._rootElement.parentNode, item.node);
+                            dynamicInstance._rootElement.parentNode[INSTANCE] = dynamicInstance;
+                            instance._processing.splice(index, 1);
+                        }
                     }
                     index -= 1;
                 }
@@ -1878,13 +1588,16 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                                     // invoke any functions that are observing changes
                                     for (var i = 0; i < observable.observers.length; i++) {
                                         observable.observers[i](changes);
+                                        console.log(i);
                                     }changes = [];
                                 }
                             }, 10);
                         } else {
                             // invoke any functions that are observing changes
                             for (var i = 0; i < observable.observers.length; i++) {
-                                observable.observers[i](changes);
+                                (function (i) {
+                                    observable.observers[i](changes);
+                                })(i);
                             }changes = [];
                         }
                     };
@@ -2994,7 +2707,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
             }
 
             function create(instance, props) {
-                instance.props = proxy.create(props, true, function (changes) {
+                instance.props = proxy.create(props, false, function (changes) {
                     instance.render();
                     updateBound(instance, changes);
                     if (instance._isCreated) {
@@ -3111,6 +2824,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
                 }).forEach($el.appendChild.bind($el));
 
                 if (node.type.indexOf('-') !== -1 && !initial) {
+                    //console.log('ADD TO DYNAMIC', $el)
                     cmp._processing.push({ node: $el, action: 'create' });
                 }
 
@@ -3601,10 +3315,10 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
         /******/)
     );
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ }),
-/* 14 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3634,7 +3348,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 15 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3644,7 +3358,309 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _style = __webpack_require__(16);
+var _style = __webpack_require__(6);
+
+var _style2 = _interopRequireDefault(_style);
+
+var _boundList = __webpack_require__(9);
+
+var _boundList2 = _interopRequireDefault(_boundList);
+
+var _mock = __webpack_require__(12);
+
+var _mock2 = _interopRequireDefault(_mock);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'bound-list': _boundList2.default
+    },
+
+    props: function props() {
+        return {
+            data: [],
+            selected: _mock2.default, //[],
+            name: 'tagfield',
+            active: -1,
+            tagColor: '#000',
+            tagBackground: 'beige',
+            crossChar: '&cross;',
+            insertOnBlur: true,
+            search: ''
+        };
+    },
+    template: function template() {
+        var _this = this;
+
+        var tagActiveStyle = this.toStyle({
+            color: this.props.tagBackground,
+            background: this.props.tagColor
+        });
+
+        var tagStyle = this.toStyle({
+            color: this.props.tagColor,
+            background: this.props.tagBackground
+        });
+
+        return '\n            <div class="' + _style2.default.wrapper + '" onclick="this.$focusInput()" onkeydown="this.$onKeyDown()" >\n                <ul class="' + _style2.default.list + '">\n                    ' + this.each(this.props.selected, function (item, i) {
+            return '\n                        <li class="' + _style2.default.listItem + '" ' + (i === _this.props.active ? '' + tagActiveStyle : '' + tagStyle) + '>\n                            <div onclick="this.$selectItem(' + i + ')" >\n                                ' + item + ' <button ' + (i === _this.props.active ? '' + tagActiveStyle : '' + tagStyle) + ' onclick="this.$removeItem(' + i + ')">' + _this.props.crossChar + '</button>\n                            </div>\n                        </li>\n                    ';
+        }) + '\n                    <li class="' + _style2.default.input + '">\n                        <input \n                            type="text" \n                            oninput="this.$onInput()"\n                            onkeydown="this.$onInputKeyDown()"\n                            onkeypress="this.$onInputKeyPress()" \n                            onblur="this.$onInputBlur()"\n                            d-ref="input"\n                            size="1"\n                        >\n                    </li>\n                </ul>\n                <select class="' + _style2.default.selected + '" multiple="multiple" name="' + this.props.name + '">\n                    ' + this.each(this.props.selected, function (item) {
+            return '\n                        <option selected="selected">' + item + '</option>\n                    ';
+        }) + '\n                </select>\n            </div>\n            <bound-list d:alias="boundList"\n                search="' + this.props.search + '"\n            ></bound-list>\n        ';
+    },
+    onMountAsync: function onMountAsync() {
+        this.children.boundList.props.data = this.props.data;
+    },
+    onUpdate: function onUpdate() {
+        this.$focusInput();
+    },
+
+
+    $focusInner: false,
+
+    $focusInput: function $focusInput() {
+        this.$focusInner = true;
+        this.ref.input.focus();
+    },
+    $setInputSize: function $setInputSize(e) {
+        e.target.setAttribute('size', e.target.value.length);
+    },
+    $onInput: function $onInput(e) {
+        this.$setInputSize(e);
+        this.props.search = e.target.value;
+    },
+    $onInputKeyPress: function $onInputKeyPress(e) {
+        if (e.keyCode === 13) {
+            var value = e.target.value.trim();
+            if (this.$addItem(value)) e.target.value = '';
+            e.target.focus();
+        }
+
+        this.props.active = -1;
+    },
+    $onInputKeyDown: function $onInputKeyDown(e) {
+        if (e.keyCode === 8 && e.target.value.length === 0) {
+            this.props.selected.pop();
+        }
+    },
+    $onKeyDown: function $onKeyDown(e) {
+
+        e.stopPropagation();
+
+        var current = this.props.active;
+        var code = e.keyCode;
+        if (code === 46) {
+            this.$removeItem(current);
+        }
+    },
+    $onInputBlur: function $onInputBlur() {
+        var _this2 = this;
+
+        this.$focusInner = false;
+        setTimeout(function () {
+            if (!_this2.$focusInner) {
+                if (_this2.props.insertOnBlur) _this2.$addItem(_this2.ref.input.value);
+                _this2.props.active = -1;
+            }
+        }, 100);
+    },
+    $addItem: function $addItem(value) {
+        if (!value.trim() || this.props.selected.includes(value)) return false;
+        this.props.selected.push(value);
+        return true;
+    },
+    $removeItem: function $removeItem(value, e) {
+        if (e) e.stopPropagation();
+        //const arr = this.props.selected;
+        //arr.splice(value, 1);
+        this.props.selected.splice(value, 1);
+        //this.props.selected = arr;
+        this.props.active = -1;
+    },
+    $selectItem: function $selectItem(value) {
+        this.props.active = value;
+    }
+};
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(7);
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(1)(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../node_modules/css-loader/index.js!./style.css", function() {
+		var newContent = require("!!../node_modules/css-loader/index.js!./style.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(false);
+// imports
+
+
+// module
+exports.push([module.i, "._1yXMp656GfECDTNEbB4zc-{\r\n    text-align: left;\r\n    border: 1px solid #ccc;\r\n}\r\n\r\n._1ZF1-nHjD5I6EnqXTBJst4 {\r\n    list-style: none;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n._1ZF1-nHjD5I6EnqXTBJst4 li{\r\n    display: inline-block;\r\n}\r\n\r\n.XF9b32VjZ5C_Ihhw0q06U {\r\n    padding: 10px;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n    font-size: 14px;\r\n    opacity: 0.7;\r\n    font-weight: bold;\r\n}\r\n\r\n.XF9b32VjZ5C_Ihhw0q06U button {\r\n    border: none;\r\n    background: transparent;\r\n    opacity: 0.5;\r\n}\r\n\r\n._1ZF1-nHjD5I6EnqXTBJst4 li input[type=text]{\r\n    font-size: 14px;\r\n    padding: 0;\r\n    border: none;\r\n    box-sizing: border-box;\r\n    outline: none;\r\n    margin: 2px;\r\n    background: transparent;\r\n}\r\n\r\n._2QP1uDpD84cULD6n1w6Yxj{\r\n    width: auto;\r\n    min-width: 60px;\r\n    padding: 10px;\r\n    font-size: 14px;\r\n    margin: 2px;\r\n    box-sizing: border-box;\r\n}\r\n\r\n._2d5jjuzTLCDqxJy4q1XtZK{\r\n    visibility: hidden;\r\n    position: fixed;\r\n    height: 1px;\r\n    width: 1px;\r\n}", ""]);
+
+// exports
+exports.locals = {
+	"wrapper": "_1yXMp656GfECDTNEbB4zc-",
+	"list": "_1ZF1-nHjD5I6EnqXTBJst4",
+	"listItem": "XF9b32VjZ5C_Ihhw0q06U",
+	"input": "_2QP1uDpD84cULD6n1w6Yxj",
+	"selected": "_2d5jjuzTLCDqxJy4q1XtZK"
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+	// get current location
+	var location = typeof window !== "undefined" && window.location;
+
+	if (!location) {
+		throw new Error("fixUrls requires window.location");
+	}
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+		return css;
+	}
+
+	var baseUrl = location.protocol + "//" + location.host;
+	var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+ This regular expression is just a way to recursively match brackets within
+ a string.
+ 	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+    (  = Start a capturing group
+      (?:  = Start a non-capturing group
+          [^)(]  = Match anything that isn't a parentheses
+          |  = OR
+          \(  = Match a start parentheses
+              (?:  = Start another non-capturing groups
+                  [^)(]+  = Match anything that isn't a parentheses
+                  |  = OR
+                  \(  = Match a start parentheses
+                      [^)(]*  = Match anything that isn't a parentheses
+                  \)  = Match a end parentheses
+              )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+  \)  = Match a close parens
+ 	 /gi  = Get all matches, not the first.  Be case insensitive.
+  */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl.trim().replace(/^"(.*)"$/, function (o, $1) {
+			return $1;
+		}).replace(/^'(.*)'$/, function (o, $1) {
+			return $1;
+		});
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
+			return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+			//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _style = __webpack_require__(10);
 
 var _style2 = _interopRequireDefault(_style);
 
@@ -3667,11 +3683,11 @@ exports.default = {
 };
 
 /***/ }),
-/* 16 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(17);
+var content = __webpack_require__(11);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -3685,7 +3701,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(5)(content, options);
+var update = __webpack_require__(1)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -3717,10 +3733,10 @@ if(false) {
 }
 
 /***/ }),
-/* 17 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(0)(false);
 // imports
 
 
@@ -3732,6 +3748,18 @@ exports.locals = {
 	"list": "_23dTlisfPcqTOm_ImPQy_y",
 	"active": "_1RnOhgnOe3cXecGRD2Gx2d"
 };
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = ['ciao1', 'ciao2', 'ciao3', 'ciao4', 'ciao5', 'ciao6', 'ciao7', 'dfsdf', 'cisdfsdao1', 'cweiao1', 'wer', 'ciwerwreao1', 'sdfs', 'cdfdiafdfdfo1', 'cvxcxcviao1', 'cixcvao1', 'bb', 'ciavbvco1', 'ciacvbcvbo1', 'cc', 'ciao1', 'xxcv', 'bvb', 'vvbvb', 'cvgrew2', 'ciaxvxcvo1', 'ci4656579ao1', 'cifdfgao1', '7868687', 'ciao11bcvbdfe546', 'ciao21bcvbdfe546', 'ciao13bcvbdfe546', 'ciao41bcvbdfe546', 'ciao16bcvbdfe546', 'ciao15bcvbdfe546', 'ciao1b7cvbdfe546', 'ciao1bc8vbdfe546', 'ciao1bc9vbdfe546', 'ciao1bc00vbdfe546', 'ciao1b11cvbdfe546', 'ciao1bc12vbdfe546', 'ciao1bc13vbdfe546', 'ciao1bc14vbdfe546', 'ciao1bc16vbdfe546', 'ciao1bcvsdfdfbdfe546', 'ciao1bcvsdfdddsdfbdfe546', 'ciao1bcvsdfddsdfbdfe546', 'ciao1bcvsdffffbdfe546', 'ciao1bcdsfcvvbdfe546', 'ciao1bcvcbnn76bdfe546', 'ciao1bcvbdf44e546', 'ciao1rrbcvbdfe546', 'ciao1bc7777vbdfe546'];
 
 /***/ })
 /******/ ]);
